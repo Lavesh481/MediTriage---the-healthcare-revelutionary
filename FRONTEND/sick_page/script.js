@@ -38,7 +38,7 @@ form.addEventListener("submit", async (e) => {
         }
 
         severityText.innerText = `Severity: ${data.severity}`;
-        diseaseText.innerText = `Possible Disease: ${data.disease}`;
+        diseaseText.innerText = `Possible Disease: ${data.predicted_disease}`;
 
     } catch (error) {
         alert("Backend not running or error occurred.");
