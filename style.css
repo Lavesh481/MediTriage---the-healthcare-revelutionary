@@ -1,0 +1,128 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f2027, #2c5364);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 700px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    animation: fadeIn 0.8s ease;
+}
+
+.logo {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+.tagline {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+/* Card styling */
+.card {
+    background: #f3f6fa;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Hide checkbox */
+.card input {
+    display: none;
+}
+
+/* Hover effect */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Selected card */
+.card input:checked + span {
+    color: green;
+}
+
+.check-btn {
+    background: #2c7be5;
+    color: white;
+    padding: 14px 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.check-btn:hover {
+    transform: scale(1.05);
+    background: #0a65ed;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    animation: fadeIn 0.2s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+.mild {
+    background: #d4edda;
+    color: #155724;
+}
+
+.moderate {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.serious {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.disclaimer {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

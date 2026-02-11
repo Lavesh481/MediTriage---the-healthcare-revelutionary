@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTriage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1 class="logo">MediTriage</h1>
+    <p class="tagline">AI-powered health triage system</p>
+
+    <form id="symptomForm">
+
+        <h2>Select your symptoms</h2>
+
+        <div class="card-grid">
+
+            <label class="card">
+                <input type="checkbox" value="fever">
+                <span>Fever</span>
+            </label>
+
+            <label class="card">
+                <input type="checkbox" value="cough">
+                <span>Cough</span>
+            </label>
+
+            <label class="card">
+                <input type="checkbox" value="headache">
+                <span>Headache</span>
+            </label>
+
+            <label class="card">
+                <input type="checkbox" value="fatigue">
+                <span>Fatigue</span>
+            </label>
+
+            <label class="card">
+                <input type="checkbox" value="chest_pain">
+                <span>Chest Pain</span>
+            </label>
+
+            <label class="card">
+                <input type="checkbox" value="shortness_of_breath">
+                <span>Breathing Issue</span>
+            </label>
+
+            <label class="card">
+                <input type="checkbox" value="nausea">
+                <span>Nausea</span>
+            </label>
+
+            <label class="card">
+                <input type="checkbox" value="sore_throat">
+                <span>Sore Throat</span>
+            </label>
+
+            <label class="card">
+                <input type="checkbox" value="runny_nose">
+                <span>Runny Nose</span>
+            </label>
+
+        </div>
+
+        <button type="submit" class="check-btn">
+            Check Condition
+        </button>
+    </form>
+
+    <div id="result" class="result hidden">
+        <h2>Result</h2>
+        <p id="severity"></p>
+        <p id="disease"></p>
+    </div>
+
+    <p class="disclaimer">
+        ⚠ This is an educational tool and not a substitute for professional medical advice.
+    </p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
