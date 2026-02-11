@@ -4,7 +4,12 @@ from sklearn.model_selection import train_test_split
 import joblib
 
 # Load dataset
-data = pd.read_csv("Testing.csv")
+# Load dataset
+# Load dataset
+data = pd.read_csv("Test.csv")
+
+# Remove any empty columns (often caused by trailing commas)
+data = data.loc[:, ~data.columns.str.contains('^Unnamed')]
 
 # Split features and target
 X = data.drop("prognosis", axis=1)
