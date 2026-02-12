@@ -1,37 +1,73 @@
 import pandas as pd
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
+import numpy as np
 import joblib
-
-# Load dataset
-# Load dataset
-# Load dataset
-data = pd.read_csv("Test.csv")
-
-# Remove any empty columns (often caused by trailing commas)
-data = data.loc[:, ~data.columns.str.contains('^Unnamed')]
-
-# Split features and target
-X = data.drop("prognosis", axis=1)
-y = data["prognosis"]
-
-# Train-test split
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
-
 import sys
-sys.path.append('../BACKEND')
+import os
+
+# Ensure we can import from BACKEND
+backend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../BACKEND'))
+if backend_path not in sys.path:
+    sys.path.append(backend_path)
+
 from model_loader import SymptomBasedModel
 
-# Train model
-# Using custom SymptomModel to maximize overlap
-model = SymptomBasedModel(X, y, X.columns.tolist())
-# No fit method needed for this simple class, or we can just pass data in __init__
-# The class stores the data.
+def train():
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        dataset_path = os.path.join(current_dir, "dataset.csv")
+        output_path = os.path.join(current_dir, "../BACKEND/disease_model.pkl")
 
+        print(f"Loading dataset from: {dataset_path}")
+        df = pd.read_csv(dataset_path)
+        
+        # Determine features and target
+        # The dataset has 'Disease' as target and 'Symptom_1'...'Symptom_17' as features
+        # We need to convert this to a binary matrix where columns are all unique symptoms
+        
+        # 1. Collect all unique symptoms from relevant columns
+        symptom_cols = [col for col in df.columns if 'Symptom' in col]
+        
+        # Flatten all symptom values into a single list
+        all_symptoms_raw = df[symptom_cols].values.flatten()
+        
+        # Clean symptoms: remove NaN and strip whitespace
+        all_symptoms = [s.strip() for s in all_symptoms_raw if pd.notna(s)]
+        unique_symptoms = sorted(list(set(all_symptoms)))
+        
+        print(f"Found {len(unique_symptoms)} unique symptoms.")
+        
+        # 2. Create binary feature matrix
+        # Initialize DataFrame with zeros for all unique symptoms
+        # Using a list of dicts is faster than creating an empty DF and filling it cell by cell
+        rows_list = []
+        for i, row in df.iterrows():
+            row_data = {sym: 0 for sym in unique_symptoms}
+            for col in symptom_cols:
+                sym = row[col]
+                if pd.notna(sym):
+                    sym_clean = sym.strip()
+                    if sym_clean in row_data:
+                        row_data[sym_clean] = 1
+            rows_list.append(row_data)
+            
+        X = pd.DataFrame(rows_list)
+        y = df['Disease']
+        
+        print(f"Training model with shape: {X.shape}")
+        
+        # Train model
+        model = SymptomBasedModel(X, y, unique_symptoms)
+        
+        # Save trained model
+        print(f"Saving model to {output_path}...")
+        joblib.dump(model, output_path)
+        
+        print("✅ disease_model.pkl created successfully")
+        
+    except Exception as e:
+        print(f"❌ Error during training: {e}")
+        import traceback
+        traceback.print_exc()
 
-# Save trained model
-joblib.dump(model, "../BACKEND/disease_model.pkl")
-
-print("✅ disease_model.pkl created successfully")
+if __name__ == "__main__":
+    train()
