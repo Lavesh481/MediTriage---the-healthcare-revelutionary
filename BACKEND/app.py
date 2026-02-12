@@ -1,6 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+import sys
+import os
+
+# Ensure the current directory (BACKEND) is in sys.path so that imports work
+# when running as a script AND when imported as a module by Vercel
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from model_loader import model, SYMPTOM_LIST
 from severity import determine_severity
 from utils import validate_symptoms, encode_symptoms
