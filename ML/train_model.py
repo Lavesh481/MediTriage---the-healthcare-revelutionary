@@ -50,13 +50,14 @@ def train():
                         row_data[sym_clean] = 1
             rows_list.append(row_data)
             
-        X = pd.DataFrame(rows_list)
-        y = df['Disease']
+        # Convert to standard python lists/numpy arrays to avoid pandas dependency in the model
+        X_train_data = [list(row.values()) for row in rows_list]
+        y_train_data = df['Disease'].tolist()
         
-        print(f"Training model with shape: {X.shape}")
+        print(f"Training model with {len(X_train_data)} samples")
         
         # Train model
-        model = SymptomBasedModel(X, y, unique_symptoms)
+        model = SymptomBasedModel(X_train_data, y_train_data, unique_symptoms)
         
         # Save trained model
         print(f"Saving model to {output_path}...")

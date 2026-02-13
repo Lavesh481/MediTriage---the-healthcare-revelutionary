@@ -31,7 +31,9 @@ class SymptomBasedModel:
             scores = X_arr.dot(sample)
             
             best_idx = np.argmax(scores)
-            best_label = self.y_train.iloc[best_idx]
+            
+            # y_train is now a list/array, so we can index directly
+            best_label = self.y_train[best_idx]
             predictions.append(best_label)
             
         return predictions
